@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+{% load static %}
+
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="icon" href="{% static 'crawler/images/favicon.png' %}" type="image/png">
+        <title>moniTOR - Dark Web Crawler</title>
+        <link rel="stylesheet" href="{% static 'crawler/css/style.css' %}" type="text/css">
+    </head>
+    <body>
+        <div class="loadwrap"><div class="loader">Loading...</div></div>
+        <img src="{% static 'crawler/images/kplogo.png' %}" alt="Kerala Police Logo" class="kplogo">
+        <img src="{% static 'crawler/images/cdlogo.png' %}" alt="Cyberdome Logo" class="cdlogo">
+        {% block content %}
+        {% endblock %}
+        <script src="{% static 'crawler/js/jquery-3.5.1.min.js' %}"></script>
+        <script>
+            $(window).on("load",function(){
+            $(".loadwrap").fadeOut("slow");
+            });
+            $(window).on("beforeunload",function(){
+            $(".loadwrap").fadeIn("slow");
+            });
+        </script>
+</html>

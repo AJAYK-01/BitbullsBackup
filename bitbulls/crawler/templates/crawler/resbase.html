@@ -1,0 +1,103 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% load static %}
+
+<a href=""><div class="mainlogoholdersmall"><img src="{% static 'crawler/images/moniTORlogo.png' %}" alt="moniTOR Logo" class="mtorlogo"></div></a>
+
+<div class="resultpage">
+    <div class="rescontent">
+        {% if search_Term %}
+        <p class="restitle">Search Results for {{ search_Term }}</p>
+        {% endif %}
+        {% if link_Term %}
+        <p class="restitle">Crawling Result of {{ link_Term }}</p>
+        {% endif %}
+        <div class="tablehold">
+            <table class="restable" id="restable">
+                <tr class="restablehead">
+                    <th title="Click to sort" onclick="sort(0)">Page Title</th>
+                    <th title="Click to sort" onclick="sort(1)">Link</th>
+                    <th title="Click to sort" onclick="sort(2)">Status</th>
+                    <th>Snapshot</th>
+                </tr>
+                {% for element in dictionary %}
+                <tr class="restablecont">
+               
+                    <td>{{ element.title }}</td>
+                    <td onclick="window.location = '{{ element.url }}'">{{ element.url }}</td>
+                    {% if element.title == "NOT FOUND" %}
+                    <td class="inactive">Inactive</td>
+                    {% else %}
+                    <td class="active">Active</td>
+                    {% endif %}
+                    <td><div class="snapbtn" onclick="saveStaticDatatoFile(this.getElementsByClassName('stuff')[0].innerHTML)"><img src="{% static 'crawler/images/snap.png' %}" alt=""><div class="stuff" style="display: none;">{{ element.html }}</div></div></td>
+                    <!--script>
+                        function writenew(){
+                        var newhtml = document.open('text/html', "replace");
+                        str = `{{ element.html }}`;
+                        str = str.replace('&lt;', '<');
+                        str = str.replace('&gt', '>');
+                        console.log(str);
+                        newhtml.write(str);
+                        newhtml.close();
+                        }
+                    </script-->
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+</div>
+<script src="{% static 'crawler/js/FileSaver.js' %}"></script>
+<script>
+    function sort(column) {
+        var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+        table = document.getElementById("restable");
+        switching=true;
+        dir = "asc";
+        while(switching){
+            switching = false;
+            rows = table.rows;
+            for (i = 1; i < rows.length -1; i++){
+                shouldSwitch = false;
+                x = rows[i].getElementsByTagName("td")[column];
+                y = rows[i + 1].getElementsByTagName("td")[column];
+                if (dir == "asc") {
+                    if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+                        shouldSwitch = true;
+                        break;
+                    }
+                }
+                else if(dir == "desc"){
+                    if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()){
+                        shouldSwitch = true;
+                        break;
+                    }
+                }
+            }
+            if (shouldSwitch){
+                rows[i].parentNode.insertBefore(rows[i+1], rows[i]);
+                switching = true;
+                switchcount++;
+            }
+            if (switchcount == 0 && dir == "asc"){
+                dir = "desc";
+                switching = true;
+            }
+        }
+    }
+
+    function saveStaticDatatoFile(txt){
+
+        txt = txt.replace(/&lt;/g, '<').replace(/&gt;/g, '>');
+        console.log(txt);
+        `var blob = new Blob([txt],
+                { type: "text/plain;charset=utf-8" });
+            saveAs(blob, "static.html");`
+        var newhtml = document.open('text/html', "replace");
+        newhtml.write(txt);
+        newhtml.close();
+    }
+</script>
+{% endblock %}

@@ -1,0 +1,8 @@
+Django==3.0.7
+fake_useragent==0.1.11
+nest_asyncio==1.4.0
+requests==2.24.0
+aiohttp_socks==0.5.3
+aiohttp==3.6.2
+beautifulsoup4==4.9.1
+pysocks==1.7.1

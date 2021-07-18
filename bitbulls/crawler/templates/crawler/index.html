@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% load static %}
+    <div class="mainlogoholder"><img src="{% static 'crawler/images/moniTORlogo.png' %}" alt="moniTOR Logo" class="mtorlogo"></div>
+    <div class="searchbar">
+        <form action="" method="post">
+        {% csrf_token %}
+
+        <div class="searcharea">
+            <!--input type="text" id="search" placeholder="Enter search term or link to crawl"-->
+            {{ form.search_Term }}
+            <div class="searchbtn"><input type="submit" value="" id="submitbtn"></div>
+        </div>
+        </form>
+    </div>
+    </div>
+    <div class="categories">
+        <div class="box">
+            <div onclick="populate(this.innerHTML)" class="critical">Child Porn</div>
+            <div onclick="populate(this.innerHTML)" class="critical">Identity Forgery</div>
+            <div onclick="populate(this.innerHTML)" class="critical">Rent a Hacker</div>
+            <div onclick="populate(this.innerHTML)" class="critical">Drug Sale</div>
+            <div onclick="populate(this.innerHTML)" class="semi-crit">Gore and Torture</div>
+            <div onclick="populate(this.innerHTML)" class="semi-crit">Terrorism</div>
+            <div onclick="populate(this.innerHTML)" class="semi-crit">Slave Trade</div>
+            <div onclick="populate(this.innerHTML)" class="semi-crit">Hitman Hiring</div>
+            <div onclick="populate(this.innerHTML)" class="non-crit">Hacktivism</div>
+            <div onclick="populate(this.innerHTML)" class="non-crit">Social Networking</div>
+            <div onclick="populate(this.innerHTML)" class="non-crit">Wikis</div>
+            <div onclick="populate(this.innerHTML)" class="non-crit">Forums</div>
+        </div>
+    </div>
+</body>
+<script>
+    function populate(txt){
+        var txtbox = document.getElementById('search');
+        txtbox.value = txt;
+        var form = document.getElementsByTagName('form')[0];
+        form.submit();
+        txtbox.value = '';
+    }
+</script>
+
+{% endblock %}
