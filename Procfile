@@ -1,1 +1,1 @@
-web: python manage.py
+web: gunicorn --pythonpath bitbulls bitbulls.wsgi
